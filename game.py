@@ -1,6 +1,5 @@
 import random
 
-
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -21,25 +20,16 @@ class Person:
         # pick random number in range for atks
         self.atkl = atk - 10
         self.atkh = atk + 10
-        self.df = df
         self.magic = magic
         self.actions = ["Attack", "Magic"]
 
     def attack(self, enemy):
         dmg = random.randrange(self.atkl, self.atkh)
         enemy.hp -= dmg
-        if enemy.hp < 0:
+        if enemy.get_hp() < 0:
             enemy.hp = 0
         return dmg
 
-    def attack_spell(self, i, enemy):
-        mgl = self.magic[i]["dmg"] - 5
-        mgh = self.magic[i]["dmg"] + 5
-        dmg = random.randrange(mgl,mgh)
-        enemy.hp -= dmg
-        if enemy.hp < 0:
-            enemy.hp = 0
-        return dmg
 
 
 
@@ -56,15 +46,6 @@ class Person:
     def get_max_mp(self):
         return self.maxmp
 
-    def reduce_mp(self, cost):
-        self.mp -= cost
-
-    def get_spell_name(self, i):
-        return self.magic[i]["name"]
-
-    def get_spell_cost(self, i):
-        return self.magic[i]["cost"]
-
     # iterate through actions and print them for user
     def choose_action(self):
         i = 1
@@ -78,5 +59,5 @@ class Person:
         i = 1
         print("Magic:")
         for item in spell:
-            print(str(i) + " : ", spell[i-1]["name"], "(cost : ", str(spell[i-1]["cost"]) + ")")
+            print(str(i) + " : ", item.name, "(cost : ", str(item.cost) + ")")
             i += 1
